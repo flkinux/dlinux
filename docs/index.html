@@ -3,219 +3,171 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lo Viejo Funciona Linux — distro ligera con apps FLTK 1.4</title>
-  <meta name="description" content="Distribución Linux ligera para PC viejas/obsoletas. Segunda vida con aplicaciones nuevas y simples hechas en FLTK 1.4. Lema: lo viejo funciona." />
-  <meta property="og:title" content="Lo Viejo Funciona Linux" />
-  <meta property="og:description" content="Distro ligera para revivir PCs antiguas, con apps FLTK 1.4." />
-  <meta name="theme-color" content="#0f766e" />
+  <title>Distro Linux ligera (FLTK 1.4) — WIP</title>
+  <meta name="description" content="Distribución Linux ligera para PCs antiguas. Aplicaciones nuevas y simples escritas con FLTK 1.4. Proyecto en desarrollo." />
   <style>
+    /* Estética simple “clásica” sin JS */
     :root{
-      --bg: #0b0f14;
-      --panel: #0f1720;
-      --ink: #e7f5f2;
-      --muted:#a9c3be;
-      --brand:#14b8a6;
-      --brand-ink:#052a26;
-      --ring:#22d3ee44;
-      --card:#0d141b;
-      --ok:#16a34a;
-      --warn:#f59e0b;
+      --bg:#f7f3e7;         /* papel viejo */
+      --ink:#1a1a1a;        /* tinta */
+      --line:#bcae95;       /* regla */
+      --link:#0645ad;       /* azul clásico */
+      --linkv:#551a8b;      /* violeta visitado */
+      --card:#fffdf7;       /* hoja */
     }
-    @media (prefers-color-scheme: light){
-      :root{
-        --bg:#f4f7f8; --panel:#ffffff; --ink:#0d1b1a; --muted:#4c6b66;
-        --brand:#0ea5a3; --brand-ink:#f1fffd; --ring:#0891b244; --card:#ffffff;
-      }
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0; padding:0; background:var(--bg); color:var(--ink); font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif}
-    a{color:var(--brand); text-decoration:none}
-    a:hover{text-decoration:underline}
-    .wrap{max-width:1100px; margin:auto; padding:0 16px}
-    header{position:sticky; top:0; z-index:10; backdrop-filter:saturate(120%) blur(6px); background:color-mix(in oklab, var(--bg), transparent 25%); border-bottom:1px solid color-mix(in oklab, var(--ink), transparent 90%)}
-    .nav{display:flex; gap:16px; align-items:center; justify-content:space-between; padding:10px 0}
-    .brand{display:flex; gap:10px; align-items:center; font-weight:700}
-    .logo{width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg,var(--brand) 0%, #2dd4bf 60%, #99f6e4 100%); box-shadow:0 0 0 3px var(--ring)}
-    .links a{padding:6px 10px; border-radius:10px}
-    .cta{display:inline-block; background:var(--brand); color:var(--brand-ink); padding:10px 14px; border-radius:12px; font-weight:600; border:1px solid color-mix(in oklab, var(--brand), #000 10%); box-shadow:0 6px 20px color-mix(in oklab, var(--brand), transparent 75%)}
-    .cta[aria-disabled="true"]{opacity:.8; cursor:not-allowed}
-    .hero{padding:56px 0 32px; display:grid; gap:24px}
-    .hero h1{font-size:clamp(28px,4vw,44px); line-height:1.1; margin:0}
-    .tagline{color:var(--muted); font-size:1.05rem}
-    .badges{display:flex; flex-wrap:wrap; gap:10px; margin-top:8px}
-    .badge{font:600 12px/1 system-ui; padding:7px 10px; border:1px dashed color-mix(in oklab, var(--brand), transparent 40%); border-radius:999px; color:var(--brand); background:color-mix(in oklab, var(--brand), transparent 92%)}
-    .panel{background:var(--panel); border:1px solid color-mix(in oklab, var(--ink), transparent 88%); border-radius:16px; padding:18px}
-    .grid{display:grid; gap:18px}
-    @media (min-width:880px){ .grid-2{grid-template-columns:1.1fr .9fr} .grid-3{grid-template-columns:repeat(3,1fr)} }
-    .features li{list-style:none; padding:12px 12px; border:1px solid color-mix(in oklab, var(--ink), transparent 88%); border-radius:12px; background:var(--card)}
-    .features b{display:block; font-size:1.02rem}
-    .gallery{display:grid; gap:10px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-    figure{margin:0; background:var(--card); border:1px solid color-mix(in oklab, var(--ink), transparent 88%); border-radius:14px; overflow:hidden}
-    img{display:block; width:100%; height:auto}
-    figcaption{font-size:.9rem; color:var(--muted); padding:8px 10px}
-    .roadmap li{margin:6px 0}
-    .ok{color:var(--ok)} .wip{color:var(--warn)}
-    footer{padding:28px 0; color:var(--muted)}
-    .sep{height:1px; background:linear-gradient(90deg,transparent, color-mix(in oklab, var(--ink), transparent 85%), transparent); margin:28px 0}
-    .center{text-align:center}
-    .kbd{font:600 12px/1 ui-monospace,Menlo,Consolas,monospace; background:var(--card); border:1px solid color-mix(in oklab, var(--ink), transparent 80%); padding:3px 6px; border-radius:6px}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Georgia","Times New Roman",serif}
+    a{color:var(--link);text-decoration:underline}
+    a:visited{color:var(--linkv)}
+    .wrap{max-width:860px;margin:0 auto;padding:12px 16px}
+    header{padding:14px 0}
+    h1{font-size:1.8rem;margin:.2rem 0}
+    hr{border:0;border-top:1px solid var(--line);margin:14px 0}
+    .nav{font-size:.95rem}
+    .nav a{margin-right:12px}
+    .notice{background:var(--card);border:1px solid var(--line);padding:10px 12px}
+    /* Galería */
+    #galeria{scroll-margin-top:20px}
+    .thumbs{display:flex;flex-wrap:wrap;gap:10px}
+    .thumbs a{display:block;border:1px solid var(--line);background:var(--card);padding:6px}
+    .thumbs img{display:block;height:120px;width:auto;max-width:100%}
+    figure{margin:0}
+    figcaption{font-size:.9rem;color:#444;margin-top:4px}
+    /* Lightbox puro CSS con :target */
+    .lb{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.85);padding:20px;z-index:10}
+    .lb:target{display:flex}
+    .lb img{max-width:95vw;max-height:90vh;display:block}
+    .lb .box{position:relative}
+    .lb .cap{color:#eee;text-align:center;margin-top:8px;font-size:.95rem}
+    .lb a.close{position:absolute;top:-10px;right:-10px;background:#fff;border:1px solid #888;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;text-decoration:none;color:#000;font-weight:700}
+    /* Cuerpo */
+    .grid{display:grid;gap:12px}
+    @media (min-width:800px){ .grid-2{grid-template-columns:1.1fr .9fr} }
+    .panel{background:var(--card);border:1px solid var(--line);padding:12px}
+    footer{font-size:.9rem;color:#444;padding:16px 0}
   </style>
 </head>
 <body>
-  <header>
-    <div class="wrap nav">
-      <div class="brand">
-        <div class="logo" aria-hidden="true"></div>
-        <span>Lo Viejo Funciona Linux</span>
-      </div>
-      <nav class="links">
+  <div class="wrap">
+    <header>
+      <h1>Distro Linux ligera (FLTK 1.4) — WIP</h1>
+      <div class="nav">
+        <a href="#galeria">Capturas</a>
         <a href="#que-es">¿Qué es?</a>
-        <a href="#capturas">Capturas</a>
         <a href="#estado">Estado</a>
-        <a class="cta" aria-disabled="true" href="#descarga" onclick="return false;">Descarga (próximamente)</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="wrap">
-    <section class="hero grid grid-2">
-      <div>
-        <h1>“lo viejo funciona”</h1>
-        <p class="tagline">
-          Distro Linux ultra ligera para <strong>PC viejas u obsoletas</strong>. Arranca rápido, usa poca RAM y
-          trae <strong>aplicaciones nuevas y simples</strong> escritas con <strong>FLTK 1.4</strong>.
-          Tu máquina de antes, con vida de nuevo.
-        </p>
-        <div class="badges">
-          <span class="badge">Ligera</span>
-          <span class="badge">Rápida</span>
-          <span class="badge">Apps FLTK 1.4</span>
-          <span class="badge">Sin fecha de salida (WIP)</span>
-        </div>
-        <p style="margin-top:14px">
-          <a class="cta" aria-disabled="true" href="#descarga" onclick="return false;">Descarga ISO (próximamente)</a>
-          &nbsp; <span class="kbd">Alt</span> + <span class="kbd">↑</span> para volver al inicio
-        </p>
+        <a href="#requisitos">Requisitos</a>
       </div>
-      <div class="panel">
-        <h3 style="margin-top:0">Objetivo</h3>
-        <p>Dar una <strong>segunda vida</strong> a hardware que ya no corre bien entornos pesados, con una
-          experiencia clara y directa: abrir, usar, listo. Sin vueltas.</p>
-        <ul class="features">
-          <li><b>🧰 Apps incluidas</b> Explorador, visor de imágenes, editor de texto, utilidades del sistema, todo en FLTK.</li>
-          <li><b>⚡ Bajo consumo</b> Ideal para 1–2 GB de RAM. Enfoque minimalista de servicios.</li>
-          <li><b>🧭 Usabilidad simple</b> Interfaces limpias, botones claros, accesos rápidos.</li>
-          <li><b>🔧 Mantenible</b> Configs de texto, sin magia oculta. Pensado para aprender y reparar.</li>
-        </ul>
+    </header>
+
+    <hr>
+
+    <section id="galeria">
+      <h2>Capturas</h2>
+      <div class="thumbs">
+        <a href="#img1">
+          <figure>
+            <img src="Screenshot From 2025-09-18 14-54-48.png" alt="Escritorio y utilidades">
+            <figcaption>Escritorio y utilidades</figcaption>
+          </figure>
+        </a>
+        <a href="#img2">
+          <figure>
+            <img src="Screenshot From 2025-09-18 14-54-10.png" alt="Explorador de archivos">
+            <figcaption>Explorador de archivos</figcaption>
+          </figure>
+        </a>
+        <a href="#img3">
+          <figure>
+            <img src="Screenshot From 2025-09-18 14-54-06.png" alt="Visor de imágenes">
+            <figcaption>Visor de imágenes</figcaption>
+          </figure>
+        </a>
+        <a href="#img4">
+          <figure>
+            <img src="Screenshot From 2025-09-18 14-53-59.png" alt="Editor de texto">
+            <figcaption>Editor de texto</figcaption>
+          </figure>
+        </a>
+        <a href="#img5">
+          <figure>
+            <img src="Screenshot From 2025-09-18 14-53-52.png" alt="Preferencias del sistema">
+            <figcaption>Preferencias del sistema</figcaption>
+          </figure>
+        </a>
       </div>
     </section>
 
-    <div class="sep" aria-hidden="true"></div>
+    <!-- Lightboxes sin JS -->
+    <div id="img1" class="lb">
+      <div class="box">
+        <a class="close" href="#galeria" aria-label="Cerrar">×</a>
+        <a href="#galeria" aria-label="Cerrar (clic en fondo)"><img src="Screenshot From 2025-09-18 14-54-48.png" alt="Escritorio y utilidades"></a>
+        <div class="cap">Escritorio y utilidades</div>
+      </div>
+    </div>
+    <div id="img2" class="lb">
+      <div class="box">
+        <a class="close" href="#galeria" aria-label="Cerrar">×</a>
+        <a href="#galeria"><img src="Screenshot From 2025-09-18 14-54-10.png" alt="Explorador de archivos"></a>
+        <div class="cap">Explorador de archivos</div>
+      </div>
+    </div>
+    <div id="img3" class="lb">
+      <div class="box">
+        <a class="close" href="#galeria" aria-label="Cerrar">×</a>
+        <a href="#galeria"><img src="Screenshot From 2025-09-18 14-54-06.png" alt="Visor de imágenes"></a>
+        <div class="cap">Visor de imágenes</div>
+      </div>
+    </div>
+    <div id="img4" class="lb">
+      <div class="box">
+        <a class="close" href="#galeria" aria-label="Cerrar">×</a>
+        <a href="#galeria"><img src="Screenshot From 2025-09-18 14-53-59.png" alt="Editor de texto"></a>
+        <div class="cap">Editor de texto</div>
+      </div>
+    </div>
+    <div id="img5" class="lb">
+      <div class="box">
+        <a class="close" href="#galeria" aria-label="Cerrar">×</a>
+        <a href="#galeria"><img src="Screenshot From 2025-09-18 14-53-52.png" alt="Preferencias del sistema"></a>
+        <div class="cap">Preferencias del sistema</div>
+      </div>
+    </div>
+
+    <hr>
 
     <section id="que-es" class="grid grid-2">
       <div class="panel">
-        <h2 style="margin-top:0">¿Qué es “Lo Viejo Funciona Linux”?</h2>
-        <p>Un proyecto comunitario en desarrollo para <strong>revivir PCs antiguas</strong> con software moderno y
-          responsable. La interfaz está basada en <strong>FLTK 1.4</strong>, un toolkit C++ rápido y liviano.</p>
-        <p>No buscamos competir con distros completas; buscamos que tu PC vuelva a servir para lo cotidiano:
-          escribir, ver imágenes, navegar sitios livianos y ejecutar herramientas útiles.</p>
-      </div>
-      <aside class="panel">
-        <h3 style="margin-top:0">Tecnologías</h3>
-        <ul>
-          <li>FLTK 1.4 (UI nativa y veloz)</li>
-          <li>Servicios mínimos al arranque</li>
-          <li>Diseño “sin distracciones”</li>
-        </ul>
-        <p><small>¿Ideas o feedback? Abrí un issue cuando este repo esté público.</small></p>
-      </aside>
-    </section>
-
-    <div class="sep" aria-hidden="true"></div>
-
-    <section id="capturas">
-      <h2>Capturas</h2>
-      <p class="tagline">Un vistazo a las apps FLTK incluidas (prototipos en progreso).</p>
-      <div class="gallery">
-        <figure>
-          <img loading="lazy" src="Screenshot From 2025-09-18 14-54-48.png" alt="Captura de la app 1 en el escritorio" />
-          <figcaption>Escritorio y utilidades</figcaption>
-        </figure>
-        <figure>
-          <img loading="lazy" src="Screenshot From 2025-09-18 14-54-10.png" alt="Captura de la app 2" />
-          <figcaption>Explorador de archivos</figcaption>
-        </figure>
-        <figure>
-          <img loading="lazy" src="Screenshot From 2025-09-18 14-54-06.png" alt="Captura de la app 3" />
-          <figcaption>Visor de imágenes</figcaption>
-        </figure>
-        <figure>
-          <img loading="lazy" src="Screenshot From 2025-09-18 14-53-59.png" alt="Captura de la app 4" />
-          <figcaption>Editor de texto</figcaption>
-        </figure>
-        <figure>
-          <img loading="lazy" src="Screenshot From 2025-09-18 14-53-52.png" alt="Captura de la app 5" />
-          <figcaption>Preferencias del sistema</figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <div class="sep" aria-hidden="true"></div>
-
-    <section id="estado" class="grid grid-2">
-      <div class="panel">
-        <h2 style="margin-top:0">Estado del proyecto</h2>
-        <ul class="roadmap">
-          <li>✅ Prototipos de apps FLTK (WIP)</li>
-          <li>✅ Sitio inicial (esta página)</li>
-          <li>🟡 Integración de utilidades del sistema</li>
-          <li>🟡 ISO instalable mínima</li>
-          <li>⬜ Documentación de uso</li>
-          <li>⬜ Primera <em>preview</em> pública</li>
-        </ul>
-        <p class="tagline"><span class="wip">Sin fecha de salida definida.</span> Estamos trabajando.</p>
+        <h2>¿Qué es?</h2>
+        <p>Una distribución Linux ligera enfocada en equipos antiguos. Las aplicaciones están escritas con <strong>FLTK 1.4</strong> para ofrecer velocidad, bajo consumo y simplicidad.</p>
       </div>
       <div class="panel">
-        <h3 style="margin-top:0">Preguntas frecuentes</h3>
-        <p><b>¿Requisitos mínimos?</b><br> CPU x86_64 de hace ~15 años, 1–2 GB RAM, 8 GB de disco.</p>
-        <p><b>¿Se puede contribuir?</b><br> Sí, el código de las apps FLTK será abierto. Aportá ideas, testing y mejoras.</p>
-        <p><b>¿Por qué FLTK?</b><br> Es rápido, nativo y súper liviano: ideal para hardware antiguo.</p>
+        <h3>Enfoque</h3>
+        <p>Arranque rápido, escritorio minimalista y utilidades básicas: explorador, visor de imágenes, editor de texto y herramientas del sistema.</p>
       </div>
     </section>
 
-    <div class="sep" aria-hidden="true"></div>
+    <hr>
 
-    <section id="descarga" class="center">
-      <h2>Descarga</h2>
-      <p class="tagline">La ISO estará disponible acá cuando haya una preview. 💿</p>
-      <p><a class="cta" aria-disabled="true" href="#" onclick="return false;">Descargar ISO (próximamente)</a></p>
-      <p><small>Seguinos y volvé pronto. “lo viejo funciona”.</small></p>
+    <section id="estado" class="panel">
+      <h2>Estado</h2>
+      <p>Proyecto en desarrollo (sin fecha de salida). Este sitio es una vista preliminar.</p>
     </section>
 
-    <div class="sep" aria-hidden="true"></div>
+    <hr>
 
-    <footer class="wrap center">
-      <p>&copy; <span id="y"></span> Lo Viejo Funciona Linux — hecho con ♥ y FLTK 1.4</p>
+    <section id="requisitos" class="panel">
+      <h2>Requisitos (estimados)</h2>
+      <ul>
+        <li>CPU x86_64 antigua</li>
+        <li>1–2 GB de RAM</li>
+        <li>8 GB de almacenamiento</li>
+      </ul>
+    </section>
+
+    <footer>
+      <hr>
+      <p>&copy; <span id="y">2025</span> — Proyecto comunitario (WIP)</p>
     </footer>
-  </main>
-
-  <script>
-    // Año automático
-    document.getElementById('y').textContent = new Date().getFullYear();
-
-    // Navegación suave básica sin dependencias
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', e=>{
-        const id = a.getAttribute('href').slice(1);
-        const el = document.getElementById(id);
-        if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
-      });
-    });
-
-    // Atajo: Alt+ArrowUp para volver arriba
-    window.addEventListener('keydown', e=>{
-      if(e.altKey && e.key === 'ArrowUp'){ window.scrollTo({top:0, behavior:'smooth'}); }
-    });
-  </script>
+  </div>
 </body>
 </html>
